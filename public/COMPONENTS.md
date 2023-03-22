@@ -30,21 +30,21 @@
 
 ### DayListItem
 
-- State:
+- State: none
 - Props:name(string), spots(number), seleted(boolean), setDay(function)
 - Used by: DayList
 
 ### InterviewerList
 
 - State:
-- Props:
+- Props: interviewers(array), setInterviewer(function), interviewer(id)
 - Used by:
 
 ### InterviewerListItem
 
-- State:
-- Props:
-- Used by:
+- State: none
+- Props: id(number), name(string), avatar(url), selected(boolean), setInterviewer(function)
+- Used by: InterviewerList
 
 ### Appointment
 
