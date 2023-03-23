@@ -12,6 +12,20 @@ export default function Form(props) {
 	const cancel = () => {
 		reset();
 	};
+
+	function validate() {
+		// if (!name) {
+		// 	setError('Student name cannot be blank');
+		// 	return;
+		// }
+		// if (!interviewer) {
+		// 	setError('Interviewer must be selected');
+		// 	return;
+		// }
+		// setError('');
+		props.onSave(student, interviewer);
+	}
+
 	return (
 		<main className='appointment__card appointment__card--create'>
 			<section className='appointment__card-left'>
@@ -24,14 +38,18 @@ export default function Form(props) {
 						onChange={event => setStudent(event.target.value)}
 					/>
 				</form>
-				{/* <InterviewerList {...setInterviewer={onChange(props.interviewer.id)}} /> */}
+				<InterviewerList
+					interviewers={props.interviewers}
+					value={interviewer}
+					onChange={setInterviewer}
+				/>
 			</section>
 			<section className='appointment__card-right'>
 				<section className='appointment__actions'>
 					<Button danger onClick={() => cancel()}>
 						Cancel
 					</Button>
-					<Button confirm onClick={props.onSave}>
+					<Button confirm onClick={validate}>
 						Save
 					</Button>
 				</section>
