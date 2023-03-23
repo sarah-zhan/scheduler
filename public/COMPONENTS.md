@@ -79,7 +79,7 @@
 ### Appointment/Status
 
 - State:
-- Props:
+- Props: message(string)
 - Used by:
 
 ### Appointment/Error
