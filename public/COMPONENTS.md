@@ -85,7 +85,7 @@
 ### Appointment/Error
 
 - State:
-- Props:
+- Props: message(string), onClose(function)
 - Used by:
 
 ### Appointment/Confirm
