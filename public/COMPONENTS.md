@@ -55,19 +55,19 @@
 ### Appointment/Header
 
 - State:
-- Props:
+- Props: time(string)
 - Used by:
 
 ### Appointment/Empty
 
 - State:
-- Props:
+- Props: onAdd(function)
 - Used by:
 
 ### Appointment/Show
 
 - State:
-- Props:
+- Props: student(string), interviewer(object), onEdit(function), onDelete(function)
 - Used by:
 
 ### Appointment/Form
