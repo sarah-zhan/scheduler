@@ -91,5 +91,5 @@
 ### Appointment/Confirm
 
 - State:
-- Props:
+- Props: message(string), onConfirm(function), onCancel(function)
 - Used by:
