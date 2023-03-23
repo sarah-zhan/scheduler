@@ -72,8 +72,8 @@
 
 ### Appointment/Form
 
-- State:
-- Props:
+- State: student(string), interviewer(number)
+- Props:student(string), interviewers(array), interview(number), onSave(function), onCancel(function)
 - Used by:
 
 ### Appointment/Status
