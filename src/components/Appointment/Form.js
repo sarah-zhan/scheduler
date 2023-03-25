@@ -2,19 +2,16 @@ import React, { useState } from 'react';
 import InterviewerList from 'components/InterviewerList';
 import Button from 'components/Button';
 
+
 export default function Form(props) {
 	const [student, setStudent] = useState(props.student || '');
 	const [interviewer, setInterviewer] = useState(props.interviewer || null);
-	const reset = () => {
-		setStudent('');
-		setInterviewer(null);
-	};
-	const cancel = () => {
-		reset();
-	};
-
+	// const reset = () => {
+	// 	setStudent('');
+	// 	setInterviewer(null);
+	// };
 	function validate() {
-		// if (!name) {
+		// if (!student) {
 		// 	setError('Student name cannot be blank');
 		// 	return;
 		// }
@@ -26,34 +23,43 @@ export default function Form(props) {
 		props.onSave(student, interviewer);
 	}
 
+
+
+
 	return (
-		<main className='appointment__card appointment__card--create'>
+		<main className='appointment__card appointment__card--create' >
 			<section className='appointment__card-left'>
-				<form onSubmit={event => event.preventDefault()} autoComplete='off'>
+				<form form onSubmit={ event => event.preventDefault() } autoComplete='off'>
 					<input
 						className='appointment__create-input text--semi-bold'
 						name='name'
 						type='text'
-						placeholder={student}
-						onChange={event => setStudent(event.target.value)}
+						placeholder={ student }
+						onChange={ event => setStudent(event.target.value) }
 					/>
 				</form>
 				<InterviewerList
-					interviewers={props.interviewers}
-					value={interviewer}
-					onChange={setInterviewer}
+					interviewers={ props.interviewers }
+					value={ interviewer }
+					onChange={ setInterviewer }
 				/>
 			</section>
 			<section className='appointment__card-right'>
 				<section className='appointment__actions'>
-					<Button danger onClick={() => cancel()}>
+					<Button
+						danger
+						onClick={ () => props.onCancel() }
+					>
 						Cancel
 					</Button>
-					<Button confirm onClick={validate}>
+					<Button
+						confirm
+						onClick={ () => props.onSave() }
+					>
 						Save
 					</Button>
 				</section>
 			</section>
-		</main>
+		</main >
 	);
 }

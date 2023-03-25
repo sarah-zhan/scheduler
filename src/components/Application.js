@@ -27,7 +27,7 @@ export default function Application(props) {
 			});
 	}, []);
 
-	console.log(state);
+	// console.log(state);
 	const dailyAppointments = getAppointmentsForDay(state, state.day);
 
 
@@ -35,10 +35,11 @@ export default function Application(props) {
 		const interview = getInterview(state, appointment.interview);
 		return (
 			<Appointment
-				key={appointment.id}
-				id={appointment.id}
-				time={appointment.time}
-				interview={interview}
+				key={ appointment.id }
+				id={ appointment.id }
+				time={ appointment.time }
+				interview={ interview }
+				interviewers={ [] }
 			/>
 		);
 	});
@@ -53,7 +54,7 @@ export default function Application(props) {
 				/>
 				<hr className='sidebar__separator sidebar--centered' />
 				<nav className='sidebar__menu'>
-					<DayList days={state.days} value={state.day} onChange={setDay} />
+					<DayList days={ state.days } value={ state.day } onChange={ setDay } />
 				</nav>
 				<img
 					className='sidebar__lhl sidebar--centered'
@@ -62,7 +63,7 @@ export default function Application(props) {
 				/>
 			</section>
 			<section className='schedule'>
-				{schedule}
+				{ schedule }
 				<Appointment key='last' time='5pm' />
 			</section>
 		</main>
