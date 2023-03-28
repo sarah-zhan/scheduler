@@ -51,8 +51,8 @@ export default function Appointment(props) {
 		props.deleteInterview(props.id).then(() => transition(EMPTY));
 	};
 
-	const onEdit = (props.interview.student, props.interview.interviewer) => {
-		transition(SHOW);
+	const onEdit = () => {
+		transition(EDIT);
 	};
 
 
@@ -76,6 +76,12 @@ export default function Appointment(props) {
 			{ mode === SAVING && <Status message='Saving' /> }
 			{ mode === DELETE && <Confirm onConfirm={ onConfirm } onCancel={ back } /> }
 			{ mode === DELETING && <Status message='Deleting' /> }
+			{ mode === EDIT && <Form
+				student={ props.interview.student }
+				interviewers={ props.interviewers }
+				onCancel={ onCancel }
+				onSave={ onSave } />
+			}
 		</article>
 	);
 }
