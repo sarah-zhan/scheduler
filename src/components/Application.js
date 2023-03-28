@@ -11,10 +11,14 @@ export default function Application(props) {
 		day: 'Monday',
 		days: [],
 		appointments: {},
-		interviewers: {}
+		interviewers: {},
 	});
 
 	const setDay = day => setState(prev => ({ ...prev, day }));
+
+
+
+
 
 	useEffect(() => {
 		const promiseDays = axios.get('/api/days');
@@ -30,19 +34,44 @@ export default function Application(props) {
 	// console.log(state);
 	const dailyAppointments = getAppointmentsForDay(state, state.day);
 
+	const bookInterview = (id, interview) => {
+		const appointment = {
+			...state.appointments[id],
+			interview: { ...interview }
+		};
+		const appointments = {
+			...state.appointments,
+			[id]: appointment
+		};
+
+		const route = `/api/appointments/${id}`;
+		const data = { interview };
+		return axios.put(route, data)
+			.then(setState({ ...state, appointments }));
+
+		//we need to return a value to go back to appointment index
+	};
 
 	const schedule = dailyAppointments.map(appointment => {
+		// console.log('appointment: ', appointment);
+
 		const interview = getInterview(state, appointment.interview);
+		// const interviewers = getInterviewersForDay(state, state.interviewers);
 		return (
 			<Appointment
 				key={ appointment.id }
 				id={ appointment.id }
 				time={ appointment.time }
 				interview={ interview }
-				interviewers={ [] }
+				interviewers={ state.interviewers }
+				bookInterview={ bookInterview }
 			/>
 		);
+
 	});
+	// console.log('interviewers:', state.interviewers);
+
+
 
 	return (
 		<main className='layout'>
