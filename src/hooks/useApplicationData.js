@@ -25,11 +25,7 @@ const useApplicationData = () => {
     const route = `/api/appointments/${id}`;
     const data = { interview };
     return axios.put(route, data)
-      .then(setState({ ...state, appointments }))
-      .catch(response => {
-        console.log('put response: ', response);
-
-      });
+      .then(() => setState({ ...state, appointments }));
 
     //we need to return a value to go back to appointment index
   };
@@ -44,16 +40,33 @@ const useApplicationData = () => {
       [id]: appointment
     };
 
+
     const route = `/api/appointments/${id}`;
     const data = null;
     return axios.delete(route, data)
-      .then(setState({ ...state, appointments }))
-      .catch(response => {
-        console.log('delete response: ', response);
-
-      });
+      .then(() => setState({ ...state, appointments }));
 
   };
+
+
+  const updateSpots = function (state, appointments, id) {
+
+    const availableAppointments = appointments.filter(appointment => appointment.interview === null);
+    // console.log('availableAppointments: ', availableAppointments);
+    const spots = availableAppointments.length;
+    const route = `/api/appointments/${id}`;
+    const data = { availableAppointments };
+    axios.put(route, data)
+      .then(setState({ ...state, availableAppointments, spots }))
+      .catch(response => {
+        console.log('put response: ', response);
+
+      });
+    // return an updated days array
+    return availableAppointments;
+  };
+
+
 
   useEffect(() => {
     const promiseDays = axios.get('/api/days');

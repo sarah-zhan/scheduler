@@ -34,7 +34,11 @@ export default function Appointment(props) {
 		save(student, interviewer);
 	};
 
-	const onCancel = () => back();
+	const onCancel = () => {
+		console.log("check oncancel");
+		back();
+	};
+
 
 	const save = (name, interviewer) => {
 		const interview = {
@@ -58,7 +62,7 @@ export default function Appointment(props) {
 	};
 
 	const onDelete = () => {
-		transition(DELETE, true);
+		transition(DELETE);
 	};
 
 	const onConfirm = () => {
@@ -66,11 +70,20 @@ export default function Appointment(props) {
 		props
 			.cancelInterview(props.id)
 			.then(() => transition(EMPTY))
-			.catch(error => transition(ERROR_DELETE, true));
+			.catch(error => {
+				console.log('error: ', error);
+				console.log('testing confirm');
+
+				transition(ERROR_DELETE, true);
+			});
 	};
 
 	const onEdit = () => {
 		transition(EDIT);
+	};
+
+	const onClose = () => {
+		back();
 	};
 
 
@@ -79,8 +92,8 @@ export default function Appointment(props) {
 			<Header time={ props.time } />
 			{ mode === SHOW && (
 				<Show
-					student={ props.interview.student }
-					interviewer={ props.interview.interviewer }
+					student={ props.interview?.student }
+					interviewer={ props.interview?.interviewer }
 					onEdit={ onEdit }
 					onDelete={ onDelete }
 				/>
@@ -92,7 +105,7 @@ export default function Appointment(props) {
 				onSave={ onSave } />
 			}
 			{ mode === SAVING && <Status message='Saving' /> }
-			{ mode === DELETE && <Confirm onConfirm={ onConfirm } onCancel={ back } /> }
+			{ mode === DELETE && <Confirm onConfirm={ onConfirm } onCancel={ onCancel } /> }
 			{ mode === DELETING && <Status message='Deleting' /> }
 			{ mode === EDIT && <Form
 				student={ props.interview.student }
@@ -100,8 +113,8 @@ export default function Appointment(props) {
 				onCancel={ onCancel }
 				onSave={ onSave } />
 			}
-			{ mode === ERROR_DELETE && <Error message='Could not delete appointment' /> }
-			{ mode === ERROR_SAVE && <Error message='Could not save appointment' /> }
+			{ mode === ERROR_DELETE && <Error message='Could not delete appointment' onClose={ onClose } /> }
+			{ mode === ERROR_SAVE && <Error message='Could not save appointment' onClose={ () => transition(EMPTY) } /> }
 		</article>
 	);
 }

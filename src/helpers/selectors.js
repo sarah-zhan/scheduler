@@ -24,14 +24,16 @@ function getInterview(state, interview) {
 
 }
 
-function getInterviewersForDay(state, selectedDay) {
-  const filteredDays = state.days.filter(day => day.name = selectedDay);
-  // console.log('filteredDays: ', filteredDays);
 
-  if (filteredDays.length === 0) {
-    return [];
+function getInterviewersForDay(state, selectedDay) {
+  const appointment = getAppointmentsForDay(state, selectedDay);
+  const interviewFound = getInterview(state, appointment.interview);
+  if (!interviewFound) {
+    return {};
   }
-  const interviewers = filteredDays[0].interviewers.map((interviewerId) => state.interviewers[interviewerId]);
+  const interviewers = state.interviewers.find(interviewer => interviewFound.interviewer === interviewer.id);
+  console.log('interviewers: ', interviewers);
+
   return interviewers;
 }
 
