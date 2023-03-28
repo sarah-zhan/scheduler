@@ -1,14 +1,8 @@
 import React from 'react';
 import Button from 'components/Button';
-import useVisualMode from 'hooks/useVisualMode';
 
-const DELETING = 'DELETING';
 
 export default function Confirm(props) {
-
-	const { mode, transition, back } = useVisualMode(
-
-	);
 
 	return (
 		<main className='appointment__card appointment__card--confirm'>
@@ -17,14 +11,12 @@ export default function Confirm(props) {
 				<Button
 					onClick={ props.onCancel }
 					danger
-					onCancel={ () => back() }
 				>
 					Cancel
 				</Button>
 				<Button
 					onClick={ props.onConfirm }
 					danger
-					onConfirm={ () => transition(DELETING) }
 				>
 					Confirm
 				</Button>

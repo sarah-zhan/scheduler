@@ -52,6 +52,23 @@ export default function Application(props) {
 		//we need to return a value to go back to appointment index
 	};
 
+	const deleteInterview = (id) => {
+		const appointment = {
+			...state.appointments[id],
+			interview: null
+		};
+		const appointments = {
+			...state.appointments,
+			[id]: appointment
+		};
+
+		const route = `/api/appointments/${id}`;
+		const data = null;
+		return axios.delete(route, data)
+			.then(setState({ ...state, appointments }));
+
+	};
+
 	const schedule = dailyAppointments.map(appointment => {
 		// console.log('appointment: ', appointment);
 
@@ -65,13 +82,11 @@ export default function Application(props) {
 				interview={ interview }
 				interviewers={ state.interviewers }
 				bookInterview={ bookInterview }
+				deleteInterview={ deleteInterview }
 			/>
 		);
 
 	});
-	// console.log('interviewers:', state.interviewers);
-
-
 
 	return (
 		<main className='layout'>
