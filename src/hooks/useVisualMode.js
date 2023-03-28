@@ -12,12 +12,10 @@ function useVisualMode(initial) {
     setMode(newMode);
   }
   function back() {
-    console.log(history);
     const pre = [...history];
     if (history.length > 1) {
       pre.pop();
     }
-    console.log('pre', pre);
     setHistory(pre);
     setMode(pre[pre.length - 1]);
 

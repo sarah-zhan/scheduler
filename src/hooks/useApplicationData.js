@@ -49,21 +49,18 @@ const useApplicationData = () => {
   };
 
 
-  const updateSpots = function (state, appointments, id) {
+  const updateSpots = function (state, appointments) {
+    const dayObj = state.days.find(d => d.name === state.day);
 
-    const availableAppointments = appointments.filter(appointment => appointment.interview === null);
-    // console.log('availableAppointments: ', availableAppointments);
-    const spots = availableAppointments.length;
-    const route = `/api/appointments/${id}`;
-    const data = { availableAppointments };
-    axios.put(route, data)
-      .then(setState({ ...state, availableAppointments, spots }))
-      .catch(response => {
-        console.log('put response: ', response);
+    let spots = 0;
+    for (const id of dayObj.appointments) {
+      if (!appointments[id].interview) {
+        spots++;
+      }
+    }
 
-      });
-    // return an updated days array
-    return availableAppointments;
+    const day = { ...dayObj, spots };
+    return state.days.map(d => d.name === state.day ? day : d);
   };
 
 
