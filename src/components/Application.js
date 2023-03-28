@@ -47,7 +47,11 @@ export default function Application(props) {
 		const route = `/api/appointments/${id}`;
 		const data = { interview };
 		return axios.put(route, data)
-			.then(setState({ ...state, appointments }));
+			.then(setState({ ...state, appointments }))
+			.catch(response => {
+				console.log('put response: ', response);
+
+			});
 
 		//we need to return a value to go back to appointment index
 	};
@@ -65,7 +69,11 @@ export default function Application(props) {
 		const route = `/api/appointments/${id}`;
 		const data = null;
 		return axios.delete(route, data)
-			.then(setState({ ...state, appointments }));
+			.then(setState({ ...state, appointments }))
+			.catch(response => {
+				console.log('delete response: ', response);
+
+			});
 
 	};
 
