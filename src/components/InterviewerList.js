@@ -4,10 +4,9 @@ import InterViewerListItem from './InterviewerListItem';
 import PropTypes from 'prop-types';
 
 export default function InterviewerList(props) {
-	console.log('props: ', props);
 
-	const list = Object.values(props.interviewers).map(interviewer => {
-		// console.log(interviewer.id, props.value);
+	const list = props.interviewers.map(interviewer => {
+
 		return (
 			<InterViewerListItem
 				key={ interviewer.id }
