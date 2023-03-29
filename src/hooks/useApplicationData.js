@@ -25,7 +25,10 @@ const useApplicationData = () => {
     const route = `/api/appointments/${id}`;
     const data = { interview };
     return axios.put(route, data)
-      .then(() => setState({ ...state, appointments }));
+      .then(() => {
+        const days = updateSpots(state, appointments); //new update
+        setState({ ...state, appointments, days });
+      });
 
     //we need to return a value to go back to appointment index
   };
@@ -44,7 +47,10 @@ const useApplicationData = () => {
     const route = `/api/appointments/${id}`;
     const data = null;
     return axios.delete(route, data)
-      .then(() => setState({ ...state, appointments }));
+      .then(() => {
+        const days = updateSpots(state, appointments);//new update
+        setState({ ...state, appointments, days });
+      });
 
   };
 
@@ -76,6 +82,6 @@ const useApplicationData = () => {
       });
   }, []);
 
-  return { state, setDay, bookInterview, cancelInterview };
+  return { state, setDay, bookInterview, cancelInterview, updateSpots };
 };
 export default useApplicationData;

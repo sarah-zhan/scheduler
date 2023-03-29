@@ -31,6 +31,7 @@ export default function Appointment(props) {
 		save(student, interviewer);
 	};
 
+
 	const onCancel = () => {
 		back();
 	};
@@ -58,11 +59,10 @@ export default function Appointment(props) {
 			.then(() => transition(EMPTY))
 			.catch(error => {
 				console.log('error: ', error);
-				console.log('testing confirm');
-
 				transition(ERROR_DELETE, true);
 			});
 	};
+
 
 	const onEdit = () => {
 		transition(EDIT);
@@ -74,7 +74,7 @@ export default function Appointment(props) {
 
 
 	return (
-		<article className='appointment'>
+		<article className='appointment' data-testid='appointment'>
 			<Header time={ props.time } />
 			{ mode === SHOW && (
 				<Show

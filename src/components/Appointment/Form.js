@@ -9,7 +9,6 @@ export default function Form(props) {
 	const [interviewer, setInterviewer] = useState(props.interviewer || null);
 	const [error, setError] = useState('');
 
-	//need to ask
 	const reset = () => {
 		setStudent('');
 		setInterviewer(null);
@@ -61,7 +60,7 @@ export default function Form(props) {
 				<section className='appointment__actions'>
 					<Button
 						danger
-						onClick={ () => props.onCancel() }
+						onClick={ () => cancel() }
 					>
 						Cancel
 					</Button>
