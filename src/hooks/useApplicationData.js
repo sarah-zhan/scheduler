@@ -26,7 +26,7 @@ const useApplicationData = () => {
     const data = { interview };
     return axios.put(route, data)
       .then(() => {
-        const days = updateSpots(state, appointments); //new update
+        const days = updateSpots(state, appointments);
         setState({ ...state, appointments, days });
       });
 
@@ -48,7 +48,7 @@ const useApplicationData = () => {
     const data = null;
     return axios.delete(route, data)
       .then(() => {
-        const days = updateSpots(state, appointments);//new update
+        const days = updateSpots(state, appointments);
         setState({ ...state, appointments, days });
       });
 

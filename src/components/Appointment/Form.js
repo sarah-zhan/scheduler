@@ -32,6 +32,7 @@ export default function Form(props) {
 		props.onSave(student, interviewer);
 	}
 
+	console.log('interviewer: ', interviewer);
 
 
 
