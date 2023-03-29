@@ -20,22 +20,18 @@ const ERROR_SAVE = 'ERROR_SAVE';
 const ERROR_DELETE = 'ERROR_DELETE';
 
 export default function Appointment(props) {
-	console.log('props: ', props);
 
 	const { mode, transition, back } = useVisualMode(
 		props.interview ? SHOW : EMPTY
 	);
-	console.log('mode: ', mode);
 
 
 	const onSave = (student, interviewer) => {
-		console.log('student: ', student);
 		transition(SAVING);
 		save(student, interviewer);
 	};
 
 	const onCancel = () => {
-		console.log("check oncancel");
 		back();
 	};
 
@@ -46,19 +42,9 @@ export default function Appointment(props) {
 			interviewer
 		};
 		const result = props.bookInterview(props.id, interview);
-		console.log('result: ', result);
-
 		result
 			.then(() => transition(SHOW))
 			.catch(error => transition(ERROR_SAVE));
-		// transition(SAVING);
-
-		// props
-		// 	.bookInterview(props.id, interview)
-		// 	.then(() => transition(SHOW))
-		// 	.catch(error => transition(ERROR_SAVE, true));
-
-
 	};
 
 	const onDelete = () => {
