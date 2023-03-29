@@ -26,14 +26,15 @@ function getInterview(state, interview) {
 
 
 function getInterviewersForDay(state, selectedDay) {
-  const appointment = getAppointmentsForDay(state, selectedDay);
-  const interviewFound = getInterview(state, appointment.interview);
-  if (!interviewFound) {
-    return {};
-  }
-  const interviewers = state.interviewers.find(interviewer => interviewFound.interviewer === interviewer.id);
-  console.log('interviewers: ', interviewers);
 
+  const daySelected = state.days.find(day => day.name === selectedDay);
+  if (!daySelected) {
+    return [];
+  }
+  const interviewers = daySelected.interviewers.map(interviewerId => {
+    return state.interviewers[interviewerId];
+  });
+  console.log('interviewers: ', interviewers);
   return interviewers;
 }
 

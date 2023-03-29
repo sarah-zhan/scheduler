@@ -14,7 +14,7 @@ export default function Application(props) {
 		cancelInterview
 	} = useApplicationData();
 
-	// console.log(state);
+	console.log(state);
 	const dailyAppointments = getAppointmentsForDay(state, state.day);
 
 	const interviewers = getInterviewersForDay(state, state.day);
@@ -32,8 +32,8 @@ export default function Application(props) {
 				id={ appointment.id }
 				time={ appointment.time }
 				interview={ interview }
-				interviewers={ state.interviewers }
-				// interviewers={ interviewers }
+				// interviewers={ state.interviewers }
+				interviewers={ interviewers }
 				bookInterview={ bookInterview }
 				cancelInterview={ cancelInterview }
 			/>
