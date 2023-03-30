@@ -29,8 +29,6 @@ const useApplicationData = () => {
         const days = updateSpots(state, appointments);
         setState({ ...state, appointments, days });
       });
-
-    //we need to return a value to go back to appointment index
   };
 
   const cancelInterview = (id) => {
