@@ -46,7 +46,6 @@ const useApplicationDataReducer = () => {
     };
 
     const route = `/api/appointments/${id}`;
-    // const data = { interview };
     return axios.put(route, { interview })
       .then(() => {
         const days = updateSpots(state, appointments);
