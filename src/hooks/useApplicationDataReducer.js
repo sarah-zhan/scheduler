@@ -3,7 +3,8 @@ import { useReducer, useEffect } from 'react';
 import axios from 'axios';
 
 
-const useApplicationDataReducer = () => {
+
+const useApplicationData = () => {
   const SET_DAY = "SET_DAY";
   const SET_APPLICATION_DATA = "SET_APPLICATION_DATA";
   const SET_INTERVIEW = "SET_INTERVIEW";
@@ -86,21 +87,12 @@ const useApplicationDataReducer = () => {
 
     spots = dayObj.appointments.reduce((count, id) => !appointments[id].interview ? count + 1 : count);
 
-
-    // spots = dayObj.appointments.reduce((count, id) => {
-    //   const appointment = appointments[id];
-    //   return !appointment.interview ? count + 1 : count;
-    //   // if (!appointment.interview) {
-    //   //   return count + 1;
-    //   // }
-    //   // return count;
-    // });
-
     const day = { ...dayObj, spots };
     return state.days.map(d => d.name === state.day ? day : d);
   };
 
 
+  // use axios to fetch the data
   useEffect(() => {
     const promiseDays = axios.get('/api/days');
     const promiseAppointments = axios.get('/api/appointments');
@@ -116,7 +108,55 @@ const useApplicationDataReducer = () => {
       });
   }, []);
 
+
+  // const message = {
+  //   type: "SET_INTERVIEW",
+  //   id,
+  //   interview: {
+  //     student,
+  //     interviewer: {
+  //       id
+  //     name,
+  //       avatar
+  //     }
+  //   }
+  // };
+
+  // useEffect(() => {
+  //   if (interview && mode === EMPTY) {
+  //     transition(SHOW);
+  //   }
+  //   if (interview === null && mode === SHOW) {
+  //     transition(EMPTY);
+  //   }
+  // }, [interview, transition, mode]);
+
+
+  const ws = new WebSocket(
+    process.env.REACT_APP_WEBSOCKET_URL
+  );
+
+  ws.onopen = (event) => {
+    ws.send(JSON.stringify(event.data));
+  };
+
+
+  ws.onmessage = (event) => {
+    console.log(event.data);
+    // const msg = JSON.parse(event.data);
+    // if (msg.type === 'id') {
+    //   //update id
+    // }
+
+    // if (msg.type === 'interview') {
+    //   //update interview info
+
+    // }
+  };
+
+
+
   return { state, setDay, bookInterview, cancelInterview, updateSpots };
 
 };
-export default useApplicationDataReducer;
+export default useApplicationData;

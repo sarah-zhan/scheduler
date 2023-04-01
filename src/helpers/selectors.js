@@ -1,6 +1,6 @@
 function getAppointmentsForDay(state, selectedDay) {
-  const filteredDays = state.days.filter(day => day.name === selectedDay);
-  if (filteredDays.length === 0) {
+  const filteredDays = state.days?.filter(day => day.name === selectedDay);
+  if (filteredDays?.length === 0) {
     return [];
   }
   const appointments = filteredDays[0].appointments.map((appointmentId) => state.appointments[appointmentId]);

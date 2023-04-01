@@ -80,6 +80,8 @@ const useApplicationData = () => {
       });
   }, []);
 
+
+
   return { state, setDay, bookInterview, cancelInterview, updateSpots };
 };
 export default useApplicationData;
