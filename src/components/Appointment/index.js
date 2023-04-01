@@ -20,7 +20,7 @@ const ERROR_SAVE = 'ERROR_SAVE';
 const ERROR_DELETE = 'ERROR_DELETE';
 
 export default function Appointment(props) {
-
+	//use custom hook to transition to different mode
 	const { mode, transition, back } = useVisualMode(
 		props.interview ? SHOW : EMPTY
 	);
@@ -86,6 +86,7 @@ export default function Appointment(props) {
 			) }
 			{ mode === EMPTY && <Empty onAdd={ () => transition(CREATE) } /> }
 			{ mode === CREATE && <Form
+				student={ props.interview?.student }
 				interviewers={ props.interviewers }
 				onCancel={ onCancel }
 				onSave={ onSave } />
@@ -94,14 +95,14 @@ export default function Appointment(props) {
 			{ mode === DELETE && <Confirm onConfirm={ onConfirm } onCancel={ onCancel } /> }
 			{ mode === DELETING && <Status message='Deleting' /> }
 			{ mode === EDIT && <Form
-				student={ props.interview.student }
+				student={ props.interview?.student }
 				interviewers={ props.interviewers }
 				onCancel={ onCancel }
 				onSave={ onSave }
 				interviewer={ props.interview?.interviewer.id } />
 			}
 			{ mode === ERROR_DELETE && <Error message='Could not delete appointment' onClose={ onClose } /> }
-			{ mode === ERROR_SAVE && <Error message='Could not save appointment' onClose={ () => transition(EMPTY) } /> }
+			{ mode === ERROR_SAVE && <Error message='Could not save appointment' onClose={ () => transition(EDIT) } /> }
 		</article>
 	);
 }

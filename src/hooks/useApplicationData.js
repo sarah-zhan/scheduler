@@ -68,7 +68,7 @@ const useApplicationData = () => {
   };
 
 
-
+  // use axios to fetch the data
   useEffect(() => {
     const promiseDays = axios.get('/api/days');
     const promiseAppointments = axios.get('/api/appointments');
