@@ -8,6 +8,7 @@ import Status from './Status';
 import Confirm from './Confirm';
 import Error from './Error';
 import './styles.scss';
+import { useEffect } from 'react';
 
 const EMPTY = 'EMPTY';
 const SHOW = 'SHOW';
@@ -72,6 +73,15 @@ export default function Appointment(props) {
 		back();
 	};
 
+
+	  useEffect(() => {
+    if (props.interview && mode === EMPTY) {
+      transition(SHOW);
+    }
+    if (props.interview === null && mode === SHOW) {
+      transition(EMPTY);
+    }
+  }, [props.interview, transition, mode]);
 
 	return (
 		<article className='appointment' data-testid='appointment'>

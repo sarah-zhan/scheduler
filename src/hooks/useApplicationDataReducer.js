@@ -17,9 +17,10 @@ const useApplicationData = () => {
   });
 
   function reducer(state, action) {
-    const { days, appointments, interviewers } = action;
+
+    const { days, appointments, interviewers, day, id, interview } = action;
     if (action.type === SET_DAY) {
-      return { ...state, days };
+      return { ...state, day };
     }
 
     if (action.type === SET_APPLICATION_DATA) {
@@ -27,7 +28,7 @@ const useApplicationData = () => {
     }
 
     if (action.type === SET_INTERVIEW) {
-      return { ...state, appointments, days };
+      return { ...state, id, interview };
     }
   }
 
@@ -50,7 +51,9 @@ const useApplicationData = () => {
     return axios.put(route, { interview })
       .then(() => {
         const days = updateSpots(state, appointments);
-        dispatch({ type: 'SET_INTERVIEW', appointments, days });
+        console.log('days: ', days);
+
+        dispatch({ type: SET_APPLICATION_DATA, ...state, appointments, days });
       });
   };
 
@@ -70,27 +73,47 @@ const useApplicationData = () => {
     return axios.delete(route, data)
       .then(() => {
         const days = updateSpots(state, appointments);
-        dispatch({ type: SET_INTERVIEW, appointments, days });
+        dispatch({ type: SET_APPLICATION_DATA, ...state, appointments, days});
       });
 
   };
 
-  const updateSpots = function (state, appointments) {
-    const dayObj = state.days.find(d => d.name === state.day);
+  // const updateSpots = function (state, appointments) {
+  //   console.log('appointments: ', appointments);
+  //   const dayObj = state.days.find(d => d.name === state.day);
 
+  //   let spots = 0;
+  //   for (const id of dayObj.appointments) {
+  //     if (!appointments[id].interview) {
+  //       spots++;
+  //     }
+  //   }
+
+  //   spots = dayObj.appointments.reduce((count, id) => !appointments[id].interview ? count + 1 : count);
+
+  //   const day = { ...dayObj, spots };
+  //   console.log('day: ', day);
+  //   console.log('spots: ', spots);
+
+  //   return state.days.map(d => d.name === state.day ? day : d);
+  // };
+  const countSpots = function (dayObj, appointments) {
     let spots = 0;
     for (const id of dayObj.appointments) {
       if (!appointments[id].interview) {
         spots++;
       }
     }
-
-    spots = dayObj.appointments.reduce((count, id) => !appointments[id].interview ? count + 1 : count);
-
-    const day = { ...dayObj, spots };
-    return state.days.map(d => d.name === state.day ? day : d);
+    return spots;
   };
+  const updateSpots = function (state, appointment) {
 
+    return state.days.map(day => {
+      return {
+        ...day, spots: countSpots(day, appointment)
+      };
+    });
+  };
 
   // use axios to fetch the data
   useEffect(() => {
@@ -109,29 +132,6 @@ const useApplicationData = () => {
   }, []);
 
 
-  // const message = {
-  //   type: "SET_INTERVIEW",
-  //   id,
-  //   interview: {
-  //     student,
-  //     interviewer: {
-  //       id
-  //     name,
-  //       avatar
-  //     }
-  //   }
-  // };
-
-  // useEffect(() => {
-  //   if (interview && mode === EMPTY) {
-  //     transition(SHOW);
-  //   }
-  //   if (interview === null && mode === SHOW) {
-  //     transition(EMPTY);
-  //   }
-  // }, [interview, transition, mode]);
-
-
   const ws = new WebSocket(
     process.env.REACT_APP_WEBSOCKET_URL
   );
@@ -143,15 +143,20 @@ const useApplicationData = () => {
 
   ws.onmessage = (event) => {
     console.log(event.data);
-    // const msg = JSON.parse(event.data);
-    // if (msg.type === 'id') {
-    //   //update id
-    // }
+    const data = JSON.parse(event.data);
+    const appointment = {
+      ...state.appointments[data.id],
+      interview: data.interview
+    };
+    const appointments = {
+      ...state.appointments,
+      [data.id]: appointment
+    };
+    const days = updateSpots(state, appointments);
+    console.log('days: ', days);
 
-    // if (msg.type === 'interview') {
-    //   //update interview info
+    dispatch({ type: SET_APPLICATION_DATA, ...state, appointments, days });
 
-    // }
   };
 
 
